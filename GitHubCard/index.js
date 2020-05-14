@@ -1,9 +1,21 @@
 /*
   STEP 1: using axios, send a GET request to the following URL
     (replacing the placeholder with your Github name):
-    https://api.github.com/users/<your name>
+   
 */
+let followers_link;
+const cards = document.querySelector('card')
 
+axios.get('https://api.github.com/users/Laurence Green')
+  .then(response=>{
+    const my_info = response.data
+    console.log(response)
+    .cards.appendChild(cardCreator(my_info))
+    followers_link = response.data.followersArray_url
+  })
+  .catch(error=>{
+    console.log(error)
+  })
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
     github info! You will need to understand the structure of this
@@ -12,6 +24,7 @@
     Skip to STEP 3.
 */
 
+const followersArray = [""]
 /*
   STEP 4: Pass the data received from Github into your function,
     and append the returned markup to the DOM as a child of .cards
@@ -28,7 +41,7 @@
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
