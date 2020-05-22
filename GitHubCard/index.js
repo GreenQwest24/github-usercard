@@ -3,19 +3,24 @@
     (replacing the placeholder with your Github name):
    
 */
-let followers_link;
-const cards = document.querySelector('card')
+//let followers_link;
+//const cards = document.querySelector('card')
 
-axios.get('https://api.github.com/users/Laurence Green')
-  .then(response=>{
-    const my_info = response.data
-    console.log(response)
-    .cards.appendChild(cardCreator(my_info))
-    followers_link = response.data.followersArray_url
+axios.get('https://api.github.com/users/GreenQwest24')
+  .then(data =>{
+    console.log('data: ', data)
+    const my_info = data.data;
+    const myInfo = data.data;
+    console.log('UserInfo: ', myInfo)
+
+
+    const cards = document.querySelector('.cards')
+    const cardInfo = cardCreator(myInfo)
+    cards.appendChild(cardInfo)
+              
   })
-  .catch(error=>{
-    console.log(error)
-  })
+
+ 
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
     github info! You will need to understand the structure of this
@@ -24,7 +29,21 @@ axios.get('https://api.github.com/users/Laurence Green')
     Skip to STEP 3.
 */
 
-const followersArray = [""]
+
+const followersArray = ['tetondan', 'dustinmyers', 'justsml', 'luisshrd', 'bigknell'];
+
+followersArray.forEach((user, i) => {
+  axios.get(`https://api.github.com/users/${user}` )
+   .then(data => {
+       const card = cardCreator(data.data)
+       const cards = document.querySelector('.cards')
+       cards.appendChild(card)
+  
+      })
+    
+    })
+
+
 /*
   STEP 4: Pass the data received from Github into your function,
     and append the returned markup to the DOM as a child of .cards
@@ -62,6 +81,61 @@ const followersArray = [""]
       </div>
     </div>
 */
+const cards = document.querySelector('.cards');
+function cardCreator(arg) {
+
+   const card = document.createElement('div');
+   const  img = document.createElement('img');
+   const  cardInfo= document.createElement('cardInfo');
+   const  h3Name = document.createElement('h3');
+   const  pUser = document.createElement('p');
+   const  pLocation= document.createElement('p');
+   const  profile = document.createElement('p');
+   const  profileLink = document.createElement('a');
+   const  pFollowers = document.createElement('p');
+   const  pPursuing = document.createElement('p');
+   const  pBio = document.createElement('p');
+
+   card.classList.add('card');
+   cardInfo.classList.add('card-info');
+   h3Name.classList.add('name');
+   pUser.classList.add('username');
+
+
+
+
+        card.appendChild(img)
+        card.appendChild(cardInfo)
+        cardInfo.appendChild(h3Name)
+        cardInfo.appendChild(pUser)
+        cardInfo.appendChild(pLocation)
+        cardInfo.appendChild(profile)
+        cardInfo.appendChild(profileLink)
+        cardInfo.appendChild(pFollowers)
+        cardInfo.appendChild(pPursuing)
+        cardInfo.appendChild(pBio)
+
+       
+
+
+        
+
+        img.src = arg.avatar_url
+        h3Name.textContent = arg.h3Name
+        pUser.textContent = arg.login
+        pLocation.textContent = arg.pLocation
+        const theProfileLink = arg.url
+        profileLink.innerHTML = theProfileLink.link(arg.url)
+        pFollowers.textContent = `Followers: ${arg.pFollowers}`
+        pPursuing.textContent = `Pursuing: ${arg.pPursuing}`
+        pBio.textContent = arg.bio
+
+        
+        return card
+        
+
+}
+
 
 /*
   List of LS Instructors Github username's:
